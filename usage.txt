@@ -5,7 +5,7 @@ How to use
 ##################################################################
 
 Step 1) Run from the command line by either typing
-    nohup ./final.py -f bots.tsv &
+    nohup ./final.py -f bots.tsv & tail -f nohup.out
   OR
     ./final.py -n <number of bots to use> (example: ./final.py -n 3)
 

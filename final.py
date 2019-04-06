@@ -2,7 +2,9 @@
 
 import csv
 import threading as t
+from os import remove
 from time import sleep
+from os.path import exists
 from sys import argv, exit
 from getpass import getpass
 from Investor import Investor
@@ -118,6 +120,8 @@ def main():
   except(EOFError, KeyboardInterrupt):
     if started:
       join_and_write(logins)
+    if exists("./nohup.out"):
+      remove("./nohup.out")
     print "\nExiting..."
     exit(0)
 

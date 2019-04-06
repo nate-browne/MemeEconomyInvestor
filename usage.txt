@@ -1,0 +1,15 @@
+INVESTOR BOT
+
+##################################################################
+How to use
+##################################################################
+
+Step 1) Run from the command line by either typing
+    ./final.py -f bots.tsv
+  OR
+    ./final.py -n <number of bots to use> (example: ./final.py -n 3)
+
+Step 2) That should be it. Stop the program every night so that it can output what it had
+invested into a file, then delete the file and recreate it (so type `rm logs.txt; touch logs.txt`)
+
+If something doesn't work, let me know.

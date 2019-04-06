@@ -5,9 +5,9 @@ How to use
 ##################################################################
 
 Step 1) Run from the command line by either typing
-    nohup ./final.py -f bots.tsv & tail -f nohup.out
+    nohup ./final.py -f bots.tsv [--to-terminal/--to-file] &
   OR
-    ./final.py -n <number of bots to use> (example: ./final.py -n 3)
+    ./final.py -n <number of bots to use> [--to-terminal/--to-file]
 
 The top command is put into the background, the bottom isn't. Use the bottom to be able to debug/see
 what is going on with the program

@@ -5,12 +5,13 @@ import threading as t
 from os import remove
 from time import sleep
 from os.path import exists
-from sys import argv, exit
 from getpass import getpass
 from Investor import Investor
+from sys import argv, exit, stdout
 
 # Usage string for error reporting
-usage = "\tUSAGE: ./final.py -f <filename of bot info> OR ./final.py -n <number of bots>"
+usage = "\tUSAGE: ./final.py -f <filename of bot info> [--to-terminal/--to-file]\
+OR ./final.py -n <number of bots> [--to-terminal/--to-file]"
 
 def init_set():
   # type: () -> Set[str]
@@ -47,7 +48,7 @@ def process_args(out_list):
   '''This function processes the command line arguments and performs
   error checks when necessary. Updates the `out_list` parameter as an output
   param if the user inputted a file of bots'''
-  if len(argv) != 3:
+  if len(argv) != 4:
     print "\n\tERROR: Script called with wrong number of arguments"
     print usage
     exit(1)
@@ -127,4 +128,14 @@ def main():
 
 # Standard boilerplate
 if __name__ == "__main__":
-  main()
+  if argv[3] == '--to-terminal':
+    main()
+  else:
+    try:
+      old_stdout = stdout
+      log_file = open("output.log", 'w')
+      stdout = log_file
+      main()
+    finally:
+      stdout = old_stdout
+      log_file.close()

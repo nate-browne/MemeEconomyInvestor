@@ -48,10 +48,6 @@ def process_args(out_list):
   '''This function processes the command line arguments and performs
   error checks when necessary. Updates the `out_list` parameter as an output
   param if the user inputted a file of bots'''
-  if len(argv) != 4:
-    print "\n\tERROR: Script called with wrong number of arguments"
-    print usage
-    exit(1)
 
   # file of bots to use
   if argv[1] == '-f':
@@ -128,6 +124,11 @@ def main():
 
 # Standard boilerplate
 if __name__ == "__main__":
+  if len(argv) != 4:
+    print "\n\tERROR: Script called with wrong number of arguments"
+    print usage
+    exit(1)
+
   if argv[3] == '--to-terminal':
     main()
   else:

@@ -15,4 +15,7 @@ what is going on with the program
 Step 2) That should be it. Stop the program every night so that it can output what it had
 invested into a file, then delete the file and recreate it (so type `rm logs.txt; touch logs.txt`)
 
+To end the program if it is running in the foreground, type CTRL + C. If it's in the background, type
+`ps` to get the running processes, find the PID for the python script (you should see the name),
+then type `kill -s SIGINT <PID>`
 If something doesn't work, let me know.

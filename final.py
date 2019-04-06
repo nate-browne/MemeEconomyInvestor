@@ -56,12 +56,14 @@ def process_args(out_list):
     if '.tsv' not in argv[2]:
       filename += '.tsv'
     with open(filename, 'r') as bots:
+      print 'Parsing file...'
       reader = csv.reader(bots, delimiter='\t')
       next(reader)
       count = 0
       for row in reader:
         out_list.append((row[0], row[1], int(row[2])))
         count += 1
+    print 'File processed.'
     return count
 
   # User wants to manually run with a specified number of bots

@@ -11,7 +11,7 @@ from sys import argv, exit, stdout
 
 # Usage string for error reporting
 usage = "\tUSAGE: ./final.py -f <filename of bot info> [--to-terminal/--to-file]\
-OR ./final.py -n <number of bots> [--to-terminal/--to-file]"
+ OR ./final.py -n <number of bots> [--to-terminal/--to-file]"
 
 def init_set():
   # type: () -> Set[str]

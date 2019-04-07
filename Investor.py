@@ -12,8 +12,8 @@ class Investor(object):
   def __repr__(self):
     return "Name: {}\nInvesting amount: {}%".format(self.name, self.amount)
 
-  def __init__(self, username, passwd, amount, replied=None):
-    self.replied = replied
+  def __init__(self, username, passwd, amount):
+    self.replied = set()
     self.name = username
     self.reddit = praw.Reddit(client_id=cid, client_secret=csecret, user_agent=uagent, username=username, password=passwd)
     self.amount = amount

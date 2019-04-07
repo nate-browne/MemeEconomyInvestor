@@ -13,15 +13,6 @@ from sys import argv, exit, stdout
 usage = "\tUSAGE: ./final.py -f <filename of bot info> [--to-terminal/--to-file]\
  OR ./final.py -n <number of bots> [--to-terminal/--to-file]"
 
-def init_set():
-  # type: () -> Set[str]
-  '''This function grabs all of the invested links from the file and loads them into memory'''
-  retval = set()
-  with open("logs.txt", "r") as infile:
-    for line in infile:
-      retval.add(line.strip('\n'))
-  return retval
-
 def run_bot(investor):
   # type: (Investor) -> None
   '''This is the function given to each thread of execution. Has each investor search for posts and sleeps
@@ -33,16 +24,6 @@ def run_bot(investor):
     else:
       print "Investor {} found nothing; sleeping for 2 mins, 10 seconds".format(investor.name)
       sleep(130)
-
-def join_and_write(logins):
-  # type: (List[Investor]) -> None
-  '''This function takes the bots and writes all of their investments to a file'''
-  combined = set()
-  for login in logins:
-    combined.update(login.replied)
-  with open("logs.txt", 'w') as outfile:
-    for postID in combined:
-      outfile.write(postID + "\n")
 
 def process_args(out_list):
   '''This function processes the command line arguments and performs
@@ -82,7 +63,6 @@ def main():
   n_threads = process_args(out_list)
   logins = [None] * n_threads
   threads = [None] * n_threads
-  started = False
 
   try:
     # Parse user input for each bot
@@ -96,13 +76,13 @@ def main():
           amt = int(input("Enter an amount to invest (number without the percent sign): "))
 
         # Create the thread for this bot
-        logins[num] = Investor(uname, passwd, amt, init_set())
+        logins[num] = Investor(uname, passwd, amt)
         threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
         threads[num].daemon = True
     else:
       # Create a thread for each bont parsed
       for num in range(len(out_list)):
-        logins[num] = Investor(out_list[num][0], out_list[num][1], out_list[num][2], init_set())
+        logins[num] = Investor(out_list[num][0], out_list[num][1], out_list[num][2])
         threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
         threads[num].daemon = True
 
@@ -111,12 +91,9 @@ def main():
       thread.start()
 
     # Keep the main thread alive
-    started = True
     while True:
       sleep(1)
   except(EOFError, KeyboardInterrupt):
-    if started:
-      join_and_write(logins)
     if exists("./nohup.out"):
       remove("./nohup.out")
     print "\nExiting..."
@@ -124,19 +101,10 @@ def main():
 
 # Standard boilerplate
 if __name__ == "__main__":
-  if len(argv) != 4:
+  if len(argv) != 3:
     print "\n\tERROR: Script called with wrong number of arguments"
     print usage
     exit(1)
 
-  if argv[3] == '--to-terminal':
-    main()
-  else:
-    try:
-      old_stdout = stdout
-      log_file = open("output.log", 'w')
-      stdout = log_file
-      main()
-    finally:
-      stdout = old_stdout
-      log_file.close()
+  main()
+

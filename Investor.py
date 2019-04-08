@@ -26,7 +26,7 @@ class Investor(object):
 
     print 'Investor {} searching for posts...'.format(self.name)
 
-    for submission in sub.new(limit=15):
+    for submission in sub.new(limit=5):
       if submission.id not in self.replied:
         if submission.author in self.authors:
           print 'Investor {} found post by {}'.format(self.name, submission.author)

@@ -105,7 +105,7 @@ def main():
 
 # Standard boilerplate
 if __name__ == "__main__":
-  if len(argv) != 3 or len(argv) != 4:
+  if len(argv) != 3:
     print "\n\tERROR: Script called with wrong number of arguments"
     print usage
     exit(1)

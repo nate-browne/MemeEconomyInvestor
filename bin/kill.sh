@@ -1,3 +1,3 @@
 #!/bin/bash
 
-killall -SIGINT final.py
+pkill python

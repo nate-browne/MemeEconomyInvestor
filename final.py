@@ -10,25 +10,26 @@ from Investor import Investor
 from sys import argv, exit, stdout
 
 # Usage string for error reporting
-usage = "\tUSAGE: ./final.py -f <filename of bot info> [--to-terminal/--to-file]\
- OR ./final.py -n <number of bots> [--to-terminal/--to-file]"
+usage = "\tUSAGE: ./final.py -f <filename of bot info> OR ./final.py -n <number of bots>"
 
 def run_bot(investor):
   # type: (Investor) -> None
-  '''This is the function given to each thread of execution. Has each investor search for posts and sleeps
-  if none are found.'''
+  '''This is the function given to each thread of execution. Has each investor
+  search for posts and sleeps if none are found.'''
   while True:
     subID = investor.find_posts()
     if subID is not None:
       investor.invest(subID)
     else:
-      print "Investor {} found nothing; sleeping for 2 mins, 10 seconds".format(investor.name)
-      sleep(130)
+      print "Investor {} found nothing; sleeping for 1 min".format(investor.name)
+      sleep(60)
 
 def process_args(out_list):
   '''This function processes the command line arguments and performs
   error checks when necessary. Updates the `out_list` parameter as an output
-  param if the user inputted a file of bots'''
+  param if the user inputted a file of bots. Returns the log file to print to
+  (if available) and the count, or None and the count'''
+
 
   # file of bots to use
   if argv[1] == '-f':
@@ -53,6 +54,10 @@ def process_args(out_list):
     print "\n\tinvalid argument: {}".format(argv[1])
     print usage
     exit(1)
+
+def cleanup():
+  if exists("./nohup.out"):
+    remove("./nohup.out")
 
 def main():
   # type: () -> None
@@ -80,7 +85,7 @@ def main():
         threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
         threads[num].daemon = True
     else:
-      # Create a thread for each bont parsed
+      # Create a thread for each bot parsed
       for num in range(len(out_list)):
         logins[num] = Investor(out_list[num][0], out_list[num][1], out_list[num][2])
         threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
@@ -94,14 +99,13 @@ def main():
     while True:
       sleep(1)
   except(EOFError, KeyboardInterrupt):
-    if exists("./nohup.out"):
-      remove("./nohup.out")
+    cleanup()
     print "\nExiting..."
     exit(0)
 
 # Standard boilerplate
 if __name__ == "__main__":
-  if len(argv) != 3:
+  if len(argv) != 3 or len(argv) != 4:
     print "\n\tERROR: Script called with wrong number of arguments"
     print usage
     exit(1)

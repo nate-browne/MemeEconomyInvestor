@@ -1,13 +1,26 @@
 INVESTOR BOT
 
 ##################################################################
-How to use
+How to use (manual running)
 ##################################################################
 
+First, when you are adding a bot to the `bots.tsv` file, make sure to create an
+application on reddit for them. To do that:
+
+1) log in
+2) go to reddit.com/prefs/apps
+3) create an app
+4) change to "personal use script"
+5) put whatever you want for the name, set the redirect uri to "http://localhost:8080"
+6) copy the client id (the small thing beneath the name on the next page), the
+client secret (should be labeled), and make up a user agent and put them in the
+corresponding columns of bots.tsv separated BY TABS
+
 Run from the command line by either typing
-    nohup ./final.py -f <filename>.tsv & (or without nohup)
-  OR
-    ./final.py -n <number of bots to use>
+    (nohup) ./final.py -f files/<filename>.tsv &
+    OR
+    (nohup) ./final.py -f files/<filename>.tsv
+
 
 The top command is put into the background, the bottom isn't. Use the bottom to
 be able to debug/see what is going on with the program. Be warned, the purpose
@@ -18,3 +31,11 @@ To end the program if it is running in the foreground, type CTRL + C. If it's in
 `ps` to get the running processes, find the PID for the python script (you should see the name),
 then type `kill -s SIGINT <PID>`
 If something doesn't work, let me know.
+
+##################################################################
+How to use (cronjob)
+##################################################################
+
+This should be set up already, so don't worry about it too much. Google
+"cronjobs and how to manage them" if you need more info about it, or just hit me
+up.

@@ -79,8 +79,8 @@ def main():
 
   # Process command line args, create thread pool
   n_threads, out_list = process_args()
-  logins = [None] * n_threads - 1
-  threads = [None] * n_threads - 1
+  logins = [None] * (n_threads - 1)
+  threads = [None] * (n_threads - 1)
 
   try:
     # Create a thread for each bot parsed - 1

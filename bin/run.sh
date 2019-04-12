@@ -17,10 +17,10 @@ if [ $manual == "true" ]; then
   read bg
 
   if [ $bg == "Y" ]; then
-    python bin/final.py -f files/$option &
+    python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/$option &
   else
-    python bin/final.py -f files/$option
+    python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/$option
   fi
 else
-  nohup python bin/final.py -f files/bots.tsv &
+  python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/bots.tsv &
 fi

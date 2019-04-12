@@ -36,6 +36,11 @@ If something doesn't work, let me know.
 How to use (cronjob)
 ##################################################################
 
-This should be set up already, so don't worry about it too much. Google
-"cronjobs and how to manage them" if you need more info about it, or just hit me
-up.
+The cronjobs run the two bash scripts you see on a 4 hour sequence.
+Starting at midnight every day, the `run.sh` script is run. It gets killed 4 hours
+later by `kill.sh`, then it start again 1 minute later and this cycle repeats
+all day.
+
+To use this script in cronjobs on multiple computers simultaneously,
+open up `run.sh` and change line 25 where it says "bots0.tsv" to be one of the
+other .tsv files for the bots. Options are `bots0.tsv`, `bots1.tsv`, and `bots2.tsv`

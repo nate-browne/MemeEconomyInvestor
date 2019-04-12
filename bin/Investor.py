@@ -1,5 +1,6 @@
 import praw
 from time import sleep
+from random import randint
 
 class Investor(object):
 
@@ -44,6 +45,7 @@ class Investor(object):
     post = self.reddit.submission(postID)
     post.downvote()
     bot_comment = find_comment_id(post)
+    sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
     comment = self.reddit.comment(id=bot_comment)
     comment.reply(Investor.investment.format(val=self.amount))
     post.upvote()

@@ -2,15 +2,21 @@
 
 import csv
 import threading as t
-from os import remove
 from time import sleep
-from os.path import exists
+from os import remove, walk
 from getpass import getpass
 from Investor import Investor
 from sys import argv, exit, stdout
+from os.path import join, expanduser
 
 # Usage string for error reporting
 usage = "\tSee usage.txt for info on how to use this script"
+
+def find_file(filename):
+  for root, dirs, files in walk(expanduser("~")):
+    if filename in files:
+      return join(root, filename)
+  return None
 
 def run_bot(investor):
   # type: (Investor) -> None
@@ -21,16 +27,16 @@ def run_bot(investor):
     if subID is not None:
       investor.invest(subID)
     else:
-      print "Investor {} found nothing; sleeping for 1 min".format(investor.name)
-      sleep(60)
+      print "Investor {} found nothing; sleeping for 45 seconds".format(investor.name)
+      sleep(45)
 
 def process_args():
-  # type: () -> int, Tuple(str, str, int, str, str, str)
+  # type: () -> int, List[Tuple(str, str, int, str, str, str)]
   '''This function processes the command line arguments and parses the given
   file to get the info for the bots. Returns the count of bots as well as the
   list of the bot info'''
 
-  out_list = []
+  out_list = list()
 
   if argv[1] == '-f':
 
@@ -62,21 +68,23 @@ def process_args():
 def cleanup():
   # type: () -> None
   '''"Cleans up" by removing the nohup output file'''
-  if exists("../nohup.out"):
-    remove("../nohup.out")
+  to_remove = find_file("nohup.out")
+  if to_remove is not None:
+    remove(to_remove)
+
 
 def main():
   # type: () -> None
   '''Main driver for the program'''
 
-  # Process command line args, create pools
+  # Process command line args, create thread pool
   n_threads, out_list = process_args()
-  logins = [None] * n_threads
-  threads = [None] * n_threads
+  logins = [None] * n_threads - 1
+  threads = [None] * n_threads - 1
 
   try:
-    # Create a thread for each bot parsed
-    for num in range(len(out_list)):
+    # Create a thread for each bot parsed - 1
+    for num in range(len(out_list) - 1):
       logins[num] = Investor(out_list[num][0], out_list[num][1], out_list[num][2], out_list[num][3], out_list[num][4], out_list[num][5])
       threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
       threads[num].daemon = True
@@ -85,9 +93,9 @@ def main():
     for thread in threads:
       thread.start()
 
-    # Keep the main thread alive
-    while True:
-      sleep(1)
+    # In the main thread, run the last bot
+    investor = Investor(out_list[-1][0], out_list[-1][1], out_list[-1][2], out_list[-1][3], out_list[-1][4], out_list[-1][5])
+    run_bot(investor)
   except(EOFError, KeyboardInterrupt):
     cleanup()
     print "\nExiting..."

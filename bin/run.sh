@@ -22,5 +22,5 @@ if [ $manual == "true" ]; then
     python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/$option
   fi
 else
-  python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/bots.tsv &
+  python ~/MemeEconomyInvestor/bin/final.py -f ~/MemeEconomyInvestor/files/bots0.tsv &
 fi

@@ -4,7 +4,6 @@ import csv
 import threading as t
 from time import sleep
 from os import remove, walk
-from getpass import getpass
 from Investor import Investor
 from sys import argv, exit, stdout
 from os.path import join, expanduser

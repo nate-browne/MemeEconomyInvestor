@@ -44,10 +44,11 @@ class Investor(object):
     print 'Investor {} investing in post with id {}'.format(self.name, postID)
     try:
       post = self.reddit.submission(postID)
+      sleep(30) # wait 30 seconds to let the bot post the comment
       post.downvote()
-      sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
       bot_comment = find_comment_id(post)
       comment = self.reddit.comment(id=bot_comment)
+      sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
       comment.reply(Investor.investment.format(val=self.amount))
       post.upvote()
     except TypeError:

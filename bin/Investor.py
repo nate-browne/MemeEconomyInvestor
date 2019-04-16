@@ -40,16 +40,24 @@ class Investor(object):
       for comment in post.comments:
         if comment.author == "MemeInvestor_bot":
           return comment.id
+      return None
 
     print 'Investor {} investing in post with id {}'.format(self.name, postID)
+    bot_comment = None
+    post = self.reddit.submission(postID)
     try:
-      post = self.reddit.submission(postID)
-      sleep(30) # wait 30 seconds to let the bot post the comment
-      post.downvote()
-      bot_comment = find_comment_id(post)
+
+      while bot_comment is None:
+        post = self.reddit.submission(postID)
+        bot_comment = find_comment_id(post)
       comment = self.reddit.comment(id=bot_comment)
+      post.downvote()
       sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
       comment.reply(Investor.investment.format(val=self.amount))
-      post.upvote()
+
     except TypeError:
+
       print 'Investor {} missed investment with id {} (type error)'.format(self.name, postID)
+    finally:
+
+      post.upvote()

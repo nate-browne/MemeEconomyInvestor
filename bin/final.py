@@ -11,12 +11,6 @@ from os.path import join, expanduser
 # Usage string for error reporting
 usage = "\tSee usage.txt for info on how to use this script"
 
-def find_file(filename):
-  for root, dirs, files in walk(expanduser("~")):
-    if filename in files:
-      return join(root, filename)
-  return None
-
 def run_bot(investor):
   # type: (Investor) -> None
   '''This is the function given to each thread of execution. Has each investor
@@ -64,14 +58,6 @@ def process_args():
     print usage
     exit(1)
 
-def cleanup():
-  # type: () -> None
-  '''"Cleans up" by removing the nohup output file'''
-  to_remove = find_file("nohup.out")
-  if to_remove is not None:
-    remove(to_remove)
-
-
 def main():
   # type: () -> None
   '''Main driver for the program'''
@@ -96,7 +82,6 @@ def main():
     investor = Investor(out_list[-1][0], out_list[-1][1], out_list[-1][2], out_list[-1][3], out_list[-1][4], out_list[-1][5])
     run_bot(investor)
   except(EOFError, KeyboardInterrupt):
-    cleanup()
     print "\nExiting..."
     exit(0)
 

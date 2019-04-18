@@ -17,13 +17,13 @@ client secret (should be labeled), and make up a user agent and put them in the
 corresponding columns of bots.tsv separated BY TABS
 
 Run from the command line by either typing
-    (nohup) ./final.py -f files/<filename>.tsv &
+    (nohup) ./final.py -f files/<filename>.tsv --no-logging &
     OR
-    (nohup) ./final.py -f files/<filename>.tsv
+    (nohup) ./final.py -f files/<filename>.tsv --no-logging
 
 
 The top command is put into the background, the bottom isn't. Use the bottom to
-be able to debug/see what is going on with the program. Be warned, the purpose
+be able to stop the program more easily for debugging. Be warned, the purpose
 of `nohup` is that it can run even when you ssh off of the pi, so it's not too
 useful if you're gonna be around the computer when it's on.
 

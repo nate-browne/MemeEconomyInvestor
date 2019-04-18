@@ -64,7 +64,7 @@ def process_args(log):
     logging.shutdown()
     exit(1)
 
-def create_logger(filenum, to_file=False):
+def create_logger(filenum, to_file=True):
   if to_file:
     filename = expanduser('~/MemeEconomyInvestor/logfile-{}.out'.format(filenum))
     logging.basicConfig(filename=filename, filemode='w', level=logging.INFO)
@@ -76,10 +76,10 @@ def main():
   # type: () -> None
   '''Main driver for the program'''
 
-  if argv[4] != '--no-logging':
-    log = create_logger(argv[4])
+  if argv[3] != '--no-logging':
+    log = create_logger(argv[3])
   else:
-    log = create_logger(argv[4], True)
+    log = create_logger(argv[3], False)
 
 
   # Process command line args, create thread pool
@@ -91,7 +91,7 @@ def main():
     # Create a thread for each bot parsed - 1
     for num in range(len(out_list) - 1):
       logins[num] = Investor(out_list[num][0], out_list[num][1], out_list[num][2], out_list[num][3], out_list[num][4], out_list[num][5], log)
-      threads[num] = t.Thread(target=run_bot, args=([logins[num], log]))
+      threads[num] = t.Thread(target=run_bot, args=([logins[num]]))
       threads[num].daemon = True
 
     # Start up each thread

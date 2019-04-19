@@ -56,9 +56,8 @@ def process_args(log):
       return count, out_list
     except IOError:
       log.critical("File does not exist. Double check your file name")
-      exit(1)
-    finally:
       logging.shutdown()
+      exit(1)
 
   else:
     log.critical('\n\tinvalid argument: {}'.format(argv[1]))
@@ -78,10 +77,10 @@ def main():
   # type: () -> None
   '''Main driver for the program'''
 
-  if argv[3] != '--no-logging':
-    log = create_logger(argv[3])
-  else:
+  if argv[3] == '--no-logging':
     log = create_logger(argv[3], False)
+  else:
+    log = create_logger(argv[3])
 
 
   # Process command line args, create thread pool

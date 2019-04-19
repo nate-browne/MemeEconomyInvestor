@@ -3,6 +3,7 @@
 
 day=`date | awk '{print $2, $3, $6}'`
 #day=`date +'%d %b %Y'`
-mkdir "~/$day-logs"
+cd ~
+mkdir "$day-logs"
 
-mv ~/MemeEconomyInvestor/*.out ~/$day-logs
+mv ~/MemeEconomyInvestor/*.out "$day-logs"

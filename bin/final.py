@@ -19,7 +19,9 @@ def run_bot(investor):
   while True:
     subID = investor.find_posts()
     if subID is not None:
-      investor.invest(subID)
+      result = False
+      while not result:
+        result = investor.invest(subID)
     else:
       sleep(45)
 

@@ -30,6 +30,8 @@ class Investor(object):
         if submission.author in self.authors:
           self.log.warning('Investor {} found post by {}'.format(self.name, submission.author))
           self.replied.append(submission.id)
+          post = self.reddit.submission(submission.id)
+          post.downvote()
           return submission.id
     self.log.warning("Investor {} found nothing; sleeping for 45 seconds".format(self.name))
     return None
@@ -50,13 +52,13 @@ class Investor(object):
       post = self.reddit.submission(postID)
       bot_comment = find_comment_id(post)
       comment = self.reddit.comment(id=bot_comment)
-      post.downvote()
       sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
       comment.reply(Investor.investment.format(val=self.amount))
+      self.log.warning('Investor {} successfully invested in post with id {}'.format(self.name, postID))
+      post.upvote()
+      return True
 
     except TypeError:
 
-      self.log.error('Investor {} missed investment with id {} (couldn\'t find the bot\'s comment)'.format(self.name, postID))
-    finally:
-
-      post.upvote()
+      self.log.error('Investor {} missed investment with id {} (couldn\'t find the bot\'s comment). Retrying.'.format(self.name, postID))
+      return False

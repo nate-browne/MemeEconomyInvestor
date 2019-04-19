@@ -23,7 +23,7 @@ class Investor(object):
   def find_posts(self):
     '''Finds posts posted by top MemeEconomists'''
 
-    self.log.warning('Investor {} searching for posts...'.format(self.name))
+    self.log.info('Investor {} searching for posts...'.format(self.name))
 
     for submission in self.sub.new(limit=5):
       if submission.id not in self.replied:
@@ -33,7 +33,7 @@ class Investor(object):
           post = self.reddit.submission(submission.id)
           post.downvote()
           return submission.id
-    self.log.warning("Investor {} found nothing; sleeping for 45 seconds".format(self.name))
+    self.log.info("Investor {} found nothing; sleeping for 45 seconds".format(self.name))
     return None
 
   def invest(self, postID):

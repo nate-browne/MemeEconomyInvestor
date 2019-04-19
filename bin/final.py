@@ -66,11 +66,19 @@ def process_args(log):
     exit(1)
 
 def create_logger(filenum, to_file=True):
+    formatter = logging.Formatter(
   if to_file:
     filename = expanduser('~/MemeEconomyInvestor/logfile-{}.out'.format(filenum))
-    logging.basicConfig(filename=filename, filemode='w', level=logging.INFO)
+    logging.basicConfig(filename=filename,
+    filemode='w',
+    format="%(asctime)s;%(levelname)s;%(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    level=logging.INFO)
   else:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+      format="%(asctime)s;%(levelname)s;%(message)s",
+      datefmt="%Y-%m-%d %H:%M:%S"
+    )
   return logging.getLogger()
 
 def main():

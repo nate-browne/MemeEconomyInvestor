@@ -3,11 +3,11 @@
 import csv
 import logging
 import threading as t
+from os import remove
 from time import sleep
-from os import remove, walk
+from sys import argv, exit
 from Investor import Investor
-from sys import argv, exit, stdout
-from os.path import join, expanduser
+from os.path import expanduser
 
 # Usage string for error reporting
 usage = "\tSee usage.txt for info on how to use this script"
@@ -66,7 +66,8 @@ def process_args(log):
     exit(1)
 
 def create_logger(filenum, to_file=True):
-    formatter = logging.Formatter(
+  '''Creates the logging object used to print to both the terminal or to the
+  file'''
   if to_file:
     filename = expanduser('~/MemeEconomyInvestor/logfile-{}.out'.format(filenum))
     logging.basicConfig(filename=filename,

@@ -1,4 +1,6 @@
 *.pyc
+files/*
+files
 .vscode
 logs.txt
 *.swp

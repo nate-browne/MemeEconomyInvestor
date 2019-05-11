@@ -1,10 +1,16 @@
 import praw
-from time import sleep
 from random import randint
+from time import sleep, time
+
+reason = []
+reason.append('couldn\'t find the bot\'s comment) Retrying.')
+reason.append('already had invested.')
 
 class Investor(object):
 
   investment = '!invest {val}%'
+  invested_msg = 'Investor {} successfully invested in post with id {}'
+  missed_msg = 'Investor {} missed investment with id {} ({})'
 
   def __repr__(self):
     return "Name: {}\nInvesting amount: {}%".format(self.name, self.amount)
@@ -16,7 +22,7 @@ class Investor(object):
     self.sub = self.reddit.subreddit("MemeEconomy")
     self.amount = amount
     self.authors = [ # change the next line to add/remove authors
-    'organic_crystal_meth', 'SlothySurprise', 'bleach_tastes_bad', 'lukenamop'
+    'organic_crystal_meth', 'SlothySurprise', 'bleach_tastes_bad', 'lukenamop', 'blkmmb', 't3karnOnYoAzz', 'Sushchat', 'Hayura--------', 'ThoughtVendor', 'PaperTronics'
     ]
     self.log = log
 
@@ -46,19 +52,31 @@ class Investor(object):
           return comment.id
       return None
 
+    def can_invest(t):
+      for comment in self.reddit.redditor(self.name).comments.new(limit=10):
+        if '!invest' in comment.body:
+          comtime = comment.created_utc
+          if t - comtime >= 14400:
+            return True
+      return False
+
     self.log.warning('Investor {} investing in post with id {}'.format(self.name, postID))
     try:
 
       post = self.reddit.submission(postID)
       bot_comment = find_comment_id(post)
       comment = self.reddit.comment(id=bot_comment)
-      sleep(randint(1, 10)) # Sleep for a random period of time between 1 and 10 seconds
-      comment.reply(Investor.investment.format(val=self.amount))
-      self.log.warning('Investor {} successfully invested in post with id {}'.format(self.name, postID))
+      sleep(randint(10, 30)) # Sleep for a random period of time between 1 and 10 seconds
+      comtime = self.reddit.redditor(self.name).comments.new(limit=1).next().created_utc
+      if can_invest(time()):
+        comment.reply(Investor.investment.format(val=self.amount))
+        self.log.warning(Investor.invested_msg.format(self.name, postID))
+      else:
+        self.log.error(Investor.missed_msg.format(self, name, postID, reason[1]))
       post.upvote()
       return True
 
     except TypeError:
 
-      self.log.error('Investor {} missed investment with id {} (couldn\'t find the bot\'s comment). Retrying.'.format(self.name, postID))
+      self.log.error(Investor.missed_msg.format(self.name, postID, reason[0]))
       return False

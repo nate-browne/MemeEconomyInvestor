@@ -1,4 +1,5 @@
 *.pyc
+*.out
 .vscode
 logs.txt
 *.swp

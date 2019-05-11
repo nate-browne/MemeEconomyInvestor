@@ -3,7 +3,6 @@
 import csv
 import logging
 import threading as t
-from os import remove
 from time import sleep
 from sys import argv, exit
 from Investor import Investor

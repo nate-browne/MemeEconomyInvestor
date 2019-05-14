@@ -58,7 +58,9 @@ class Investor(object):
           comtime = comment.created_utc
           if t - comtime >= 14400:
             return True
-      return False
+          else:
+            return False
+      return True
 
     self.log.warning('Investor {} investing in post with id {}'.format(self.name, postID))
     try:
@@ -67,7 +69,6 @@ class Investor(object):
       bot_comment = find_comment_id(post)
       comment = self.reddit.comment(id=bot_comment)
       sleep(randint(10, 30)) # Sleep for a random period of time between 1 and 10 seconds
-      comtime = self.reddit.redditor(self.name).comments.new(limit=1).next().created_utc
       if can_invest(time()):
         comment.reply(Investor.investment.format(val=self.amount))
         self.log.warning(Investor.invested_msg.format(self.name, postID))

@@ -22,7 +22,7 @@ class Investor(object):
     self.sub = self.reddit.subreddit("MemeEconomy")
     self.amount = amount
     self.authors = [ # change the next line to add/remove authors
-    'organic_crystal_meth', 'SlothySurprise', 'bleach_tastes_bad', 'lukenamop', 'blkmmb', 't3karnOnYoAzz', 'Sushchat', 'Hayura--------', 'ThoughtVendor', 'PaperTronics'
+    'organic_crystal_meth', 'SlothySurprise', 'bleach_tastes_bad', 'lukenamop', 'blkmmb', 't3karnOnYoAzz', 'Sushchat', 'Hayura--------', 'ThoughtVendor', 'PaperTronics', 'RegularNoodles', 'TooEarlyForFlapjacks', 'iscatmypants'
     ]
     self.log = log
 
